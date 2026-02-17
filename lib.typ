@@ -39,11 +39,11 @@
             paint: state.theme.colors.text.rgb,
           ))
         ]
-        h(0.2em)
+        h(.3em)
       } else {
         word
       }
-      h(0.1em)
+      h(.3em)
     }
     #h(1fr)
     // #verb
@@ -86,5 +86,35 @@
       assert(sentence.contains("_"))
       conjugation_block(i, sentence.split(), verb, state)
     }
+  ]
+}
+
+#let conjugation-table(words, state) = {
+  let stroke = state.theme.colors.maroon.rgb + 0.2em
+
+  show table.cell.where(y: 0): strong
+  set table(stroke: (x, y) => (
+    left: if x > 0 { stroke },
+    top: if y > 0 { stroke },
+  ))
+
+  block(
+    fill: state.theme.colors.surface0.rgb,
+    inset: 0.2em,
+    width: 95%,
+    radius: 1em,
+    stroke: stroke,
+  )[
+    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [*Vervoeging 'hebben'*]))
+    #table(
+      align: (right, left),
+      columns: (auto, 1fr),
+      stroke: (x, y) => (
+        left: if x > 0 { stroke },
+        top: stroke,
+      ),
+      [Vorm], [Vervoeging],
+      ..(words.flatten()),
+    )
   ]
 }
