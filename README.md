@@ -1,4 +1,4 @@
-= Typst worksheet
+# Typst worksheet
 A little library for generating worksheets for language teachers.
 
 Features:
@@ -11,3 +11,5 @@ Planned:
 - Internationalized exercise descriptions
 - Conjugation tables
 - Word lists
+
+![Example](example.png)
