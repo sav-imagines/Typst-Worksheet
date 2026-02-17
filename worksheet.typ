@@ -6,16 +6,15 @@
 }
 
 #let textbox(state) = {
-  box(stroke: state.theme.colors.rosewater.rgb, radius: 0.2em, width: 100%, height: 1.6em)[
+  box(radius: 0.2em, width: 100%, height: 2em)[
     #line(start: (0%, 80%), end: (100%, 80%), stroke: (
-      dash: "loosely-dotted",
-      paint: state.theme.colors.text.rgb,
+      paint: state.theme.colors.rosewater.rgb,
     ))
   ]
 }
 
 #let sentence_block(i, words, translation, state) = {
-  block(above: 1.5em, width: 100%)[
+  block(above: 1.5em, width: 100%, breakable: false)[
     *#(i + 1).* "#translation"
     #pad(left: 0.2em, block[
       #for word in words {
@@ -23,8 +22,31 @@
         h(0.7em)
       }
     ])
-
     #textbox(state)
+  ]
+}
+
+#let conjugation_block(i, words, verb, state) = {
+  block(above: 1.5em, width: 100%, breakable: false)[
+    *#(i + 1).* [#verb]
+    #linebreak()
+    #for word in words {
+      if word == "_" {
+        h(0.2em)
+        box(stroke: state.theme.colors.rosewater.rgb, radius: 0.2em)[
+          #line(length: 5em, stroke: (
+            dash: "loosely-dotted",
+            paint: state.theme.colors.text.rgb,
+          ))
+        ]
+        h(0.2em)
+      } else {
+        word
+      }
+      h(0.1em)
+    }
+    #h(1fr)
+    // #verb
   ]
 }
 
@@ -44,8 +66,25 @@
           sentence = sentence.trim(character)
         }
         let (sentence, words) = shuffle(rng, sentence.split())
+        state = (..state, rng: rng)
         sentence_block(i, words, translation, state)
       }
     ],
   )
+}
+
+#let fill_conjugation_exercise(sentences, state) = {
+  block(
+    fill: state.theme.colors.surface0.rgb,
+    inset: 1em,
+    width: 95%,
+    radius: 1em,
+    stroke: state.theme.colors.peach.rgb + 0.2em,
+  )[
+    *Vul het ontbrekende werkwoord in.*
+    #for (i, (sentence, verb)) in sentences.enumerate() {
+      assert(sentence.contains("_"))
+      conjugation_block(i, sentence.split(), verb, state)
+    }
+  ]
 }
