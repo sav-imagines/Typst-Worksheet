@@ -1,5 +1,5 @@
 # Typst worksheet
-A little library for generating worksheets for language teachers.
+Generate worksheets for language teaching.
 
 Features:
 
@@ -13,3 +13,6 @@ Planned:
 - Word lists
 
 ![Example](example.png)
+
+To use, clone this repo and run `just publish-local` (linux only).
+Afterwards, you can import it under `@local/language_worksheet:0.0.1`

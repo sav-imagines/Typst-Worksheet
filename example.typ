@@ -1,4 +1,4 @@
-#import "worksheet.typ": fill_conjugation_exercise, word_order_exercise, worksheet
+#import "@local/language_worksheet:0.0.1": fill_conjugation_exercise, word_order_exercise, worksheet
 #import "@preview/suiji:0.5.1": gen-rng
 #import "@preview/catppuccin:1.1.0": catppuccin, frappe, mocha, set-code-theme
 

@@ -1,0 +1,7 @@
+[package]
+name = "language_worksheet"
+version = "0.0.1"
+entrypoint = "worksheet.typ"
+authors = ["Savannah van der Kolk"]
+license = "GPL-3.0-only"
+description = "Simple worksheet template for language teachers"
