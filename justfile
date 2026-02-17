@@ -1,5 +1,8 @@
 watch:
-  typst watch example.typ --root .
+  typst watch example.typ
 
 build:
-  typst compile example.typ --root .
+  typst compile example.typ
+
+build-png:
+  typst compile example.typ --format png

@@ -1,11 +1,13 @@
 = Typst worksheet
 A little library for generating worksheets for language teachers.
 
-Exercise features:
+Features:
 
-- Word order
+- Word order (Ex. `ate cake the I`)
+- Conjugation exercises (Ex.: `I ... the cake (to eat)`)
 
 Planned:
 
-- Conjugation (Ex.: `I ... the cake (to eat)`)
-
+- Internationalized exercise descriptions
+- Conjugation tables
+- Word lists
