@@ -139,7 +139,29 @@
         top: stroke,
       ),
       [Vorm], [Vervoeging],
-      ..(words.flatten()),
+      ..(words.flatten().map(x => eval(x, mode: "markup"))),
     )
   ]
 }
+
+#let word_list(words, state) = {
+  let stroke = state.theme.colors.flamingo.rgb + 0.2em
+  block(
+    fill: state.theme.colors.surface0.rgb,
+    inset: .2em,
+    width: 95%,
+    radius: 1em,
+    stroke: stroke,
+    table(
+      columns: (1fr, 1fr),
+      stroke: (x, y) => (
+        left: if x > 0 { stroke },
+        top: if y > 0 { stroke },
+      ),
+      table.header[*Woord*][*Betekenis*],
+      ..words.flatten().map(x => [#x]),
+    ),
+  )
+}
+
+// #word_list(csv("examples/data/words.tsv", delimiter: "	"), worksheet())

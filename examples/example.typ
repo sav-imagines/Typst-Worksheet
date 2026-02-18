@@ -1,4 +1,6 @@
-#import "@local/language_worksheet:0.0.1": conjugation-table, fill_conjugation_exercise, word_order_exercise, worksheet
+#import "@local/language_worksheet:0.0.1": (
+  conjugation-table, fill_conjugation_exercise, word_list, word_order_exercise, worksheet,
+)
 #import "@preview/suiji:0.5.1": gen-rng
 #import "@preview/catppuccin:1.1.0": catppuccin, frappe, latte, mocha, set-code-theme
 
@@ -18,3 +20,4 @@
 #word_order_exercise(csv("data/sentences.tsv", delimiter: "	"), new_state)
 #fill_conjugation_exercise(csv("data/conjugation.tsv", delimiter: "	"), new_state)
 #conjugation-table(csv("data/hebben.tsv", delimiter: "	"), state, "hebben")
+#word_list(csv("data/words.tsv", delimiter: "	"), worksheet())
