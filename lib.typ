@@ -1,3 +1,18 @@
+// Copyright (C) 2026 Savannah van der Kolk
+
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 #import "@preview/suiji:0.5.1": gen-rng, shuffle
 #import "@preview/catppuccin:1.1.0": frappe
 
@@ -98,7 +113,7 @@
   ]
 }
 
-#let conjugation-table(words, state) = {
+#let conjugation-table(words, state, root) = {
   let stroke = state.theme.colors.maroon.rgb + 0.2em
 
   show table.cell.where(y: 0): strong
@@ -115,7 +130,7 @@
     stroke: stroke,
     breakable: false,
   )[
-    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [*Vervoeging 'hebben'*]))
+    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [*Vervoeging '#root'*]))
     #table(
       align: (right, left),
       columns: (auto, 1fr),

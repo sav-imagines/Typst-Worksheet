@@ -15,6 +15,6 @@
 
 = Werkblad Nederlands 1
 
-#word_order_exercise(csv("sentences.tsv", delimiter: "	"), new_state)
-#fill_conjugation_exercise(csv("conjugation.tsv", delimiter: "	"), new_state)
-#conjugation-table(csv("hebben.tsv", delimiter: "	"), state)
+#word_order_exercise(csv("data/sentences.tsv", delimiter: "	"), new_state)
+#fill_conjugation_exercise(csv("data/conjugation.tsv", delimiter: "	"), new_state)
+#conjugation-table(csv("data/hebben.tsv", delimiter: "	"), state, "hebben")

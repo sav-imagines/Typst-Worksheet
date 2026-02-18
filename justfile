@@ -1,11 +1,11 @@
 watch:
-  typst watch example.typ
+  typst watch examples/example.typ
 
 build:
-  typst compile example.typ
+  typst compile examples/example.typ
 
 build-png:
-  typst compile example.typ --format png
+  typst compile examples/example.typ --format png
 
 [linux]
 publish-local:
