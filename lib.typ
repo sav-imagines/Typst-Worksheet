@@ -153,7 +153,7 @@
     radius: 1em,
     stroke: stroke,
     table(
-      columns: (1fr, 1fr),
+      columns: (auto, 1fr),
       stroke: (x, y) => (
         left: if x > 0 { stroke },
         top: if y > 0 { stroke },
@@ -163,5 +163,3 @@
     ),
   )
 }
-
-// #word_list(csv("examples/data/words.tsv", delimiter: "	"), worksheet())

@@ -6,11 +6,13 @@ Features:
 - Word order (Ex. `ate cake the I`)
 - Conjugation exercises (Ex.: `I ... the cake (to eat)`)
 - Conjugation tables
+- Word lists
 
 Planned:
 
 - Internationalized exercise descriptions
-- Word lists
+- Theory block
+- Story block
 
 ![Example](examples/example.png)
 
