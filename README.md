@@ -7,12 +7,12 @@ Features:
 - Conjugation exercises (Ex.: `I ... the cake (to eat)`)
 - Conjugation tables
 - Word lists
+- Story block
 
 Planned:
 
-- Internationalized exercise descriptions
-- Theory block
-- Story block
+- Automatic exercise numbering
+- Internationalized exercise descriptions (will use [Linguify](https://typst.app/universe/package/linguify/))
 
 ![Example](examples/example.png)
 

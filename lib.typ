@@ -82,7 +82,7 @@
     radius: 1em,
     stroke: state.theme.colors.rosewater.rgb + 0.2em,
     [
-      *Zet de woorden in de juiste volgorde.*
+      Zet de woorden in de juiste volgorde.
       #stack(
         spacing: 0.5em,
         ..shuffled_sentences
@@ -104,7 +104,7 @@
     radius: 1em,
     stroke: state.theme.colors.peach.rgb + 0.2em,
   )[
-    *Vul het ontbrekende werkwoord in.*
+    Vul het ontbrekende werkwoord in.
     #for (i, (sentence, verb)) in sentences.enumerate() {
       let required_character = "_" // to mitigate a weird LSP cursive rendering bug: _
       assert(sentence.contains(required_character))
@@ -115,12 +115,7 @@
 
 #let conjugation-table(words, state, root) = {
   let stroke = state.theme.colors.maroon.rgb + 0.2em
-
   show table.cell.where(y: 0): strong
-  set table(stroke: (x, y) => (
-    left: if x > 0 { stroke },
-    top: if y > 0 { stroke },
-  ))
 
   block(
     fill: state.theme.colors.surface0.rgb,
@@ -130,15 +125,11 @@
     stroke: stroke,
     breakable: false,
   )[
-    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [*Vervoeging '#root'*]))
+    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == Vervoeging '#root']))
     #table(
-      align: (right, left),
       columns: (auto, 1fr),
-      stroke: (x, y) => (
-        left: if x > 0 { stroke },
-        top: stroke,
-      ),
-      [Vorm], [Vervoeging],
+      stroke: (x, y) => (left: if x > 0 { stroke }, top: stroke),
+      table.header[Vorm][Vervoeging],
       ..(words.flatten().map(x => eval(x, mode: "markup"))),
     )
   ]
@@ -146,20 +137,33 @@
 
 #let word_list(words, state) = {
   let stroke = state.theme.colors.flamingo.rgb + 0.2em
+  show table.cell.where(y: 0): strong
+
   block(
     fill: state.theme.colors.surface0.rgb,
-    inset: .2em,
+    inset: 0.2em,
     width: 95%,
     radius: 1em,
     stroke: stroke,
-    table(
+  )[
+    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == Woordenlijst]))
+    #table(
       columns: (auto, 1fr),
-      stroke: (x, y) => (
-        left: if x > 0 { stroke },
-        top: if y > 0 { stroke },
-      ),
+      stroke: (x, y) => (left: if x > 0 { stroke }, top: stroke),
       table.header[*Woord*][*Betekenis*],
-      ..words.flatten().map(x => [#x]),
-    ),
+      ..words.flatten(),
+    )
+  ]
+}
+
+#let text_block(body, state) = {
+  let stroke = state.theme.colors.lavender.rgb + 0.2em
+  block(
+    fill: state.theme.colors.surface0.rgb,
+    inset: 1em,
+    width: 95%,
+    radius: 1em,
+    stroke: stroke,
+    body,
   )
 }

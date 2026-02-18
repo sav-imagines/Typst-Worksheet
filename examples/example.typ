@@ -1,8 +1,9 @@
 #import "@local/language_worksheet:0.0.1": (
-  conjugation-table, fill_conjugation_exercise, word_list, word_order_exercise, worksheet,
+  conjugation-table, fill_conjugation_exercise, text_block, word_list, word_order_exercise, worksheet,
 )
 #import "@preview/suiji:0.5.1": gen-rng
 #import "@preview/catppuccin:1.1.0": catppuccin, frappe, latte, mocha, set-code-theme
+#set text(lang: "nl")
 
 #let state = (
   theme: frappe,
@@ -15,9 +16,17 @@
 #let new_state = worksheet(..state)
 #set text(font: ("NimbusSanL", "Nimbus Sans"))
 
-= Werkblad Nederlands 1
+#let tsv(path) = csv(path, delimiter: "	")
 
-#word_order_exercise(csv("data/sentences.tsv", delimiter: "	"), new_state)
-#fill_conjugation_exercise(csv("data/conjugation.tsv", delimiter: "	"), new_state)
-#conjugation-table(csv("data/hebben.tsv", delimiter: "	"), state, "hebben")
-#word_list(csv("data/words.tsv", delimiter: "	"), worksheet())
+= Werkblad Nederlands
+
+#word_order_exercise(tsv("data/sentences.tsv"), new_state)
+#fill_conjugation_exercise(tsv("data/conjugation.tsv"), new_state)
+#conjugation-table(tsv("data/hebben.tsv"), state, "hebben")
+#colbreak()
+#word_list(tsv("data/words.tsv"), worksheet())
+#let story = [
+  == Lorem ipsum
+  #lorem(25)
+]
+#text_block(story, state)
