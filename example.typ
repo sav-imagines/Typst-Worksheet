@@ -11,7 +11,7 @@
 
 #let theme = state.theme
 #let new_state = worksheet(..state)
-#set text(font: "Nimbus Sans")
+#set text(font: ("NimbusSanL", "Nimbus Sans"))
 
 = Werkblad Nederlands 1
 

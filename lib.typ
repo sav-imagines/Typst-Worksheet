@@ -6,7 +6,7 @@
 }
 
 #let textbox(state) = {
-  box(radius: 0.2em, width: 100%, height: 2em)[
+  box(radius: 0.2em, width: 100%, height: 1.5em)[
     #line(start: (0%, 80%), end: (100%, 80%), stroke: (
       paint: state.theme.colors.rosewater.rgb,
     ))
@@ -46,12 +46,20 @@
       h(.3em)
     }
     #h(1fr)
-    // #verb
   ]
 }
 
 #let word_order_exercise(sentences, state) = {
   let rng = state.rng
+  let shuffled_sentences = ()
+  for (i, (sentence, translation)) in sentences.enumerate() {
+    sentence = lower(sentence)
+    for character in state.ignored_characters {
+      sentence = sentence.trim(character)
+    }
+    let (rng, words) = shuffle(rng, sentence.split())
+    shuffled_sentences.push((words, translation))
+  }
   block(
     fill: state.theme.colors.surface0.rgb,
     inset: 1em,
@@ -60,15 +68,15 @@
     stroke: state.theme.colors.rosewater.rgb + 0.2em,
     [
       *Zet de woorden in de juiste volgorde.*
-      #for (i, (sentence, translation)) in sentences.enumerate() {
-        sentence = lower(sentence)
-        for character in state.ignored_characters {
-          sentence = sentence.trim(character)
-        }
-        let (sentence, words) = shuffle(rng, sentence.split())
-        state = (..state, rng: rng)
-        sentence_block(i, words, translation, state)
-      }
+      #stack(
+        spacing: 0.5em,
+        ..shuffled_sentences
+          .enumerate()
+          .map(item => {
+            let (i, (words, translation)) = item
+            sentence_block(i, words, translation, state)
+          }),
+      )
     ],
   )
 }
@@ -83,7 +91,8 @@
   )[
     *Vul het ontbrekende werkwoord in.*
     #for (i, (sentence, verb)) in sentences.enumerate() {
-      assert(sentence.contains("_"))
+      let required_character = "_" // to mitigate a weird LSP cursive rendering bug: _
+      assert(sentence.contains(required_character))
       conjugation_block(i, sentence.split(), verb, state)
     }
   ]
@@ -104,6 +113,7 @@
     width: 95%,
     radius: 1em,
     stroke: stroke,
+    breakable: false,
   )[
     #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [*Vervoeging 'hebben'*]))
     #table(
