@@ -16,14 +16,27 @@
 #import "@preview/suiji:0.5.1": gen-rng, shuffle
 #import "@preview/catppuccin:1.1.0": frappe
 
+#let rounded_block(theme, color, body, ..others) = {
+  block(
+    fill: theme.colors.surface0.rgb,
+    inset: 1em,
+    width: 95%,
+    radius: 1em,
+    stroke: color + 0.2em,
+    ..others,
+    body,
+  )
+}
+
 #let worksheet(theme: frappe, rng: gen-rng(0), ignored_characters: "?.!", numbering: numbering("1.")) = {
   return (theme: theme, rng: rng, ignored_characters: ignored_characters)
 }
 
 #let textbox(state) = {
+  let colors = state.theme.colors
   box(radius: 0.2em, width: 100%, height: 1.5em)[
     #line(start: (0%, 80%), end: (100%, 80%), stroke: (
-      paint: state.theme.colors.rosewater.rgb,
+      paint: colors.rosewater.rgb,
     ))
   ]
 }
@@ -42,6 +55,7 @@
 }
 
 #let conjugation_block(i, words, verb, state) = {
+  let colors = state.theme.colors
   block(above: 1.5em, width: 100%, breakable: false)[
     *#(i + 1).* [#verb]
     #linebreak()
@@ -51,7 +65,7 @@
         box(stroke: state.theme.colors.rosewater.rgb, radius: 0.2em)[
           #line(length: 5em, stroke: (
             dash: "loosely-dotted",
-            paint: state.theme.colors.text.rgb,
+            paint: colors.text.rgb,
           ))
         ]
         h(.3em)
@@ -65,6 +79,7 @@
 }
 
 #let word_order_exercise(sentences, state) = {
+  let colors = state.theme.colors
   let rng = state.rng
   let shuffled_sentences = ()
   for (i, (sentence, translation)) in sentences.enumerate() {
@@ -76,34 +91,28 @@
     (rng, words) = shuffle(rng, sentence.split())
     shuffled_sentences.push((words, translation))
   }
-  block(
-    fill: state.theme.colors.surface0.rgb,
-    inset: 1em,
-    width: 95%,
-    radius: 1em,
-    stroke: state.theme.colors.rosewater.rgb + 0.2em,
-    [
-      Zet de woorden in de juiste volgorde.
-      #stack(
-        spacing: 0.5em,
-        ..shuffled_sentences
-          .enumerate()
-          .map(item => {
-            let (i, (words, translation)) = item
-            sentence_block(i, words, translation, state)
-          }),
-      )
-    ],
-  )
+  rounded_block(
+    state.theme,
+    colors.rosewater.rgb,
+  )[
+    Zet de woorden in de juiste volgorde.
+    #stack(
+      spacing: 0.5em,
+      ..shuffled_sentences
+        .enumerate()
+        .map(item => {
+          let (i, (words, translation)) = item
+          sentence_block(i, words, translation, state)
+        }),
+    )
+  ]
 }
 
 #let fill_conjugation_exercise(sentences, state) = {
-  block(
-    fill: state.theme.colors.surface0.rgb,
-    inset: 1em,
-    width: 95%,
-    radius: 1em,
-    stroke: state.theme.colors.peach.rgb + 0.2em,
+  let colors = state.theme.colors
+  rounded_block(
+    state.theme,
+    colors.peach.rgb,
   )[
     Vul het ontbrekende werkwoord in.
     #for (i, (sentence, verb)) in sentences.enumerate() {
@@ -115,16 +124,16 @@
 }
 
 #let conjugation_table(words, state, root) = {
-  let stroke = state.theme.colors.maroon.rgb + 0.2em
+  let colors = state.theme.colors
+  let stroke = colors.maroon.rgb + 0.2em
   show table.cell.where(y: 0): strong
 
-  block(
-    fill: state.theme.colors.surface0.rgb,
+  rounded_block(
+    state.theme,
+    colors.maroon.rgb,
     inset: 0.2em,
-    width: 95%,
-    radius: 1em,
-    stroke: stroke,
     breakable: false,
+    clip: true,
   )[
     #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == Vervoeging '#root']))
     #table(
@@ -137,15 +146,14 @@
 }
 
 #let word_list(words, state) = {
-  let stroke = state.theme.colors.flamingo.rgb + 0.2em
+  let colors = state.theme.colors
+  let stroke = colors.flamingo.rgb + 0.2em
   show table.cell.where(y: 0): strong
 
-  block(
-    fill: state.theme.colors.surface0.rgb,
+  rounded_block(
+    state.theme,
+    colors.flamingo.rgb,
     inset: 0.2em,
-    width: 95%,
-    radius: 1em,
-    stroke: stroke,
     clip: true,
   )[
     #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == Woordenlijst]))
@@ -159,18 +167,18 @@
 }
 
 #let text_block(state, body) = {
-  let stroke = state.theme.colors.lavender.rgb + 0.2em
-  block(
-    fill: state.theme.colors.surface0.rgb,
+  let colors = state.theme.colors
+  let stroke = colors.lavender.rgb + 0.2em
+  rounded_block(
+    state.theme,
+    colors.lavender.rgb,
     inset: 1em,
-    width: 95%,
-    radius: 1em,
-    stroke: stroke,
     body,
   )
 }
 
 #let notice(state, body) = {
+  let colors = state.theme.colors
   box(
     fill: state.theme.colors.yellow.rgb.transparentize(60%),
     inset: 1em,
@@ -180,4 +188,8 @@
     #circle(radius: 0.6em, fill: blue.lighten(10%), inset: 0.1em, align(center, text(fill: white.darken(5%), [i])))
     #body
   ]
+}
+
+#let translation_exercise(state, sentences) = {
+  let colors = state.theme.colors
 }
