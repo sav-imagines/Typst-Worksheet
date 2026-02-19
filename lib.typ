@@ -146,6 +146,7 @@
     width: 95%,
     radius: 1em,
     stroke: stroke,
+    clip: true,
   )[
     #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == Woordenlijst]))
     #table(
