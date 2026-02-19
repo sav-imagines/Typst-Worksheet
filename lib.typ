@@ -114,7 +114,7 @@
   ]
 }
 
-#let conjugation-table(words, state, root) = {
+#let conjugation_table(words, state, root) = {
   let stroke = state.theme.colors.maroon.rgb + 0.2em
   show table.cell.where(y: 0): strong
 
