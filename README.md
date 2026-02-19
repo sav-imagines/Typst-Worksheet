@@ -13,6 +13,7 @@ Planned:
 
 - Automatic exercise numbering
 - Internationalized exercise descriptions (will use [Linguify](https://typst.app/universe/package/linguify/))
+- Fix rough edges on broken/interrupted word lists
 
 ![Example](examples/example.png)
 

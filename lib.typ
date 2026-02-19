@@ -156,7 +156,7 @@
   ]
 }
 
-#let text_block(body, state) = {
+#let text_block(state, body) = {
   let stroke = state.theme.colors.lavender.rgb + 0.2em
   block(
     fill: state.theme.colors.surface0.rgb,
@@ -166,4 +166,16 @@
     stroke: stroke,
     body,
   )
+}
+
+#let notice(state, body) = {
+  block(
+    fill: state.theme.colors.yellow.rgb.transparentize(60%),
+    inset: 1em,
+    radius: 1em,
+    stroke: 2pt + state.theme.colors.yellow.rgb,
+  )[
+    #circle(radius: 0.6em, fill: blue.lighten(10%), inset: 0.1em, align(center, text(fill: white.darken(5%), [i])))
+    #body
+  ]
 }
