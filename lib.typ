@@ -72,7 +72,8 @@
     for character in state.ignored_characters {
       sentence = sentence.trim(character)
     }
-    let (rng, words) = shuffle(rng, sentence.split())
+    let words = none
+    (rng, words) = shuffle(rng, sentence.split())
     shuffled_sentences.push((words, translation))
   }
   block(
@@ -169,7 +170,7 @@
 }
 
 #let notice(state, body) = {
-  block(
+  box(
     fill: state.theme.colors.yellow.rgb.transparentize(60%),
     inset: 1em,
     radius: 1em,
