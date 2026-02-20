@@ -8,12 +8,11 @@ Features:
 - Conjugation tables
 - Word lists
 - Story block
+- Internationalized exercise descriptions (using [Linguify](https://typst.app/universe/package/linguify/))
 
 Planned:
 
 - Automatic exercise numbering
-- Internationalized exercise descriptions (will use [Linguify](https://typst.app/universe/package/linguify/))
-- Fix rough edges on broken/interrupted word lists
 - Writing exercises
 - Direct translation exercises
 

@@ -15,6 +15,9 @@
 
 #import "@preview/suiji:0.5.1": gen-rng, shuffle
 #import "@preview/catppuccin:1.1.0": frappe
+#import "@preview/linguify:0.5.0": linguify
+
+#let lang-db = toml("lang.toml")
 
 #let rounded_block(theme, color, body, ..others) = {
   block(
@@ -95,7 +98,7 @@
     state.theme,
     colors.rosewater.rgb,
   )[
-    Zet de woorden in de juiste volgorde.
+    #linguify("word-order", from: lang-db)
     #stack(
       spacing: 0.5em,
       ..shuffled_sentences
@@ -114,7 +117,7 @@
     state.theme,
     colors.peach.rgb,
   )[
-    Vul het ontbrekende werkwoord in.
+    #linguify("add-remaining-verb", from: lang-db)
     #for (i, (sentence, verb)) in sentences.enumerate() {
       let required_character = "_" // to mitigate a weird LSP cursive rendering bug: _
       assert(sentence.contains(required_character))
@@ -135,7 +138,10 @@
     breakable: false,
     clip: true,
   )[
-    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == Vervoeging '#root']))
+    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == #linguify(
+      "conjugation",
+      from: lang-db,
+    ) '#root']))
     #table(
       columns: (auto, 1fr),
       stroke: (x, y) => (left: if x > 0 { stroke }, top: stroke),
@@ -156,11 +162,14 @@
     inset: 0.2em,
     clip: true,
   )[
-    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == Woordenlijst]))
+    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == #linguify(
+      "word-list",
+      from: lang-db,
+    )]))
     #table(
       columns: (auto, 1fr),
       stroke: (x, y) => (left: if x > 0 { stroke }, top: stroke),
-      table.header[*Woord*][*Betekenis*],
+      table.header(linguify("word", from: lang-db), linguify("meaning", from: lang-db)),
       ..words.flatten(),
     )
   ]

@@ -1,0 +1,26 @@
+[conf]
+default-lang = "nl"
+
+[lang.nl]
+word-order = "Zet de woorden in de juiste volgorde."
+add-remaining-verb = "Vul het ontbrekende werkwoord in."
+conjugation = "Vervoeging"
+word-list = "Woordenlijst"
+word = "Woord"
+meaning = "Betekenis"
+
+[lang.en]
+word-order = "Put the words in the right order."
+add-remaining-verb = "Add the missing verb."
+conjugation = "Conjugation for"
+word-list = "Word list"
+word = "Word"
+meaning = "Meaning"
+
+[lang.tok]
+word-order = "o pali e toki tan ijo ni"
+add-remaining-verb = "o pali e nimi pona lon supa"
+conjugation = "nimi li ante sama ni"
+word-list = "nimi mute"
+word = "nimi lon toki ante"
+meaning = "nimi lon toki ni"
