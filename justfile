@@ -1,3 +1,5 @@
+set windows-shell := ["cmd.exe", "/c"]
+
 watch:
   typst watch examples/example.typ
 
@@ -11,10 +13,13 @@ build-png:
 publish-local:
   cp * ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
 
-set windows-shell := ["cmd.exe", "/c"]
 [windows]
 publish-local:
   xcopy * %APPDATA%\typst\packages\local\language_worksheet\0.0.1 /Y
+
+[linux]
+watch-publish-local:
+  watchexec cp * ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
 
 [windows]
 watch-publish-local:
