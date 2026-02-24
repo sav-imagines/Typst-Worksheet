@@ -18,16 +18,19 @@
 #import "@preview/linguify:0.5.0": linguify
 
 #let A = 20%
-#let W = .1em
+#let LW = .1em // line width
+#let BW = 100% // block width
 #let lang-db = toml("lang.toml")
+
+#let ling(word) = linguify(word, from: lang-db)
 
 #let rounded_block(theme, color, body, ..others) = {
   block(
     fill: theme.colors.surface0.rgb,
     inset: 1em,
-    width: 95%,
+    width: BW,
     radius: 1em,
-    stroke: color + W,
+    stroke: color + LW,
     ..others,
     body,
   )
@@ -39,7 +42,7 @@
 
 #let textbox(state) = {
   let colors = state.theme.colors
-  box(radius: W, width: 100%, height: 1.5em)[
+  box(radius: LW, width: BW, height: 1.5em)[
     #line(start: (0%, 80%), end: (100%, 80%), stroke: (
       paint: colors.rosewater.rgb.desaturate(A),
     ))
@@ -47,11 +50,11 @@
 }
 
 #let sentence_block(i, words, translation, state) = {
-  block(above: 1.5em, width: 100%, breakable: false)[
+  block(above: 1.5em, width: BW, breakable: false)[
     *#(i + 1).* "#translation"
     #pad(left: 0.2em, block[
       #for word in words {
-        box(outset: W, inset: W, radius: W, fill: state.theme.colors.surface2.rgb, [#word])
+        box(outset: LW, inset: LW, radius: LW, fill: state.theme.colors.surface2.rgb, [#word])
         h(0.7em)
       }
     ])
@@ -61,7 +64,7 @@
 
 #let conjugation_block(i, words, verb, state) = {
   let colors = state.theme.colors
-  block(above: 1.5em, width: 100%, breakable: false)[
+  block(above: 1.5em, width: BW, breakable: false)[
     *#(i + 1).* [#verb]
     #linebreak()
     #for word in words {
@@ -100,7 +103,7 @@
     state.theme,
     colors.rosewater.rgb.desaturate(A),
   )[
-    #linguify("word-order", from: lang-db)
+    #ling("word-order")
     #stack(
       spacing: 0.5em,
       ..shuffled_sentences
@@ -119,7 +122,7 @@
     state.theme,
     colors.peach.rgb.desaturate(A),
   )[
-    #linguify("add-remaining-verb", from: lang-db)
+    #ling("add-remaining-verb")
     #for (i, (sentence, verb)) in sentences.enumerate() {
       let required_character = "_" // to mitigate a weird LSP cursive rendering bug: _
       assert(sentence.contains(required_character))
@@ -130,7 +133,7 @@
 
 #let conjugation_table(words, state, root) = {
   let colors = state.theme.colors
-  let stroke = colors.maroon.rgb.desaturate(A) + W
+  let stroke = colors.maroon.rgb.desaturate(A) + LW
   show table.cell.where(y: 0): strong
 
   rounded_block(
@@ -140,9 +143,8 @@
     breakable: false,
     clip: true,
   )[
-    #pad(top: 1em, left: 1em, block(above: 1.5em, width: 100%, breakable: false, [ == #linguify(
+    #pad(top: 1em, left: 1em, block(above: 1.5em, width: BW, breakable: false, [ == #ling(
       "conjugation",
-      from: lang-db,
     ) '#root']))
     #table(
       columns: (auto, 1fr),
@@ -155,7 +157,7 @@
 
 #let word_list(words, state) = {
   let colors = state.theme.colors
-  let stroke = colors.flamingo.rgb.desaturate(A) + W
+  let stroke = colors.flamingo.rgb.desaturate(A) + LW
   show table.cell.where(y: 0): strong
 
   rounded_block(
@@ -164,14 +166,33 @@
     inset: 0.2em,
     clip: true,
   )[
-    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == #linguify(
-      "word-list",
-      from: lang-db,
-    )]))
+    #pad(top: .8em, left: .8em, block(above: 1.5em, width: BW, breakable: false, [ == #ling("word-list")]))
     #table(
       columns: (auto, 1fr),
       stroke: (x, y) => (left: if x > 0 { stroke }, top: stroke),
-      table.header(linguify("word", from: lang-db), linguify("meaning", from: lang-db)),
+      table.header(ling("word"), ling("meaning")),
+      ..words.flatten(),
+    )
+  ]
+}
+
+#let word_symbol_list(words, state, header: table.header[#ling("word")][#ling("symbol")][#ling("meaning")]) = {
+  let colors = state.theme.colors
+  let color = colors.flamingo.rgb
+  let stroke = color.desaturate(A) + LW
+
+  show table.cell.where(y: 0): strong
+  rounded_block(
+    state.theme,
+    color,
+    inset: 0.2em,
+    clip: true,
+  )[
+    #pad(top: .8em, left: .8em, block(above: 1.5em, width: BW, breakable: false, [ == #ling("word-list")]))
+    #table(
+      columns: 3,
+      stroke: (x, y) => (left: if x > 0 { stroke }, top: stroke),
+      header,
       ..words.flatten(),
     )
   ]
@@ -190,10 +211,10 @@
 #let notice(state, body) = {
   let colors = state.theme.colors
   box(
-    fill: state.theme.colors.yellow.rgb.desaturate(60%),
+    fill: state.theme.colors.yellow.rgb.transparentize(60%),
     inset: 1em,
     radius: 1em,
-    stroke: 2pt + state.theme.colors.yellow.rgb.desaturate(A),
+    stroke: LW + state.theme.colors.yellow.rgb.desaturate(A),
   )[
     #circle(radius: 0.6em, fill: blue.lighten(10%), inset: 0.1em, align(center, text(fill: white.darken(5%), [i])))
     #body
@@ -203,3 +224,5 @@
 #let translation_exercise(state, sentences) = {
   let colors = state.theme.colors
 }
+
+// #word_symbol_list(csv("words.tsv", delimiter: "	").map(x => (x.at(0), x.at(0).at(0), x.at(1))), worksheet())
