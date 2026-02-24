@@ -221,11 +221,10 @@
       white,
       [i],
     ))
-    #let infoCircle = circle(radius: 0.6em, fill: blue.lighten(30%), [#centered_i])
+    #let infoCircle = circle(radius: 0.8em, fill: blue.lighten(40%), [#centered_i])
 
-    #place(infoCircle)
-    #place(dx: 1.5em, dy: 0.25em)[== #heading]
-    #v(1.75em)
+    #place(top + right, infoCircle)
+    == #heading
     #body
   ]
 }
