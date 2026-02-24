@@ -190,7 +190,7 @@
   )[
     #pad(top: .8em, left: .8em, block(above: 1.5em, width: BW, breakable: false, [ == #ling("word-list")]))
     #table(
-      columns: 3,
+      columns: (auto, auto, 1fr),
       stroke: (x, y) => (left: if x > 0 { stroke }, top: stroke),
       header,
       ..words.flatten(),
@@ -224,5 +224,3 @@
 #let translation_exercise(state, sentences) = {
   let colors = state.theme.colors
 }
-
-// #word_symbol_list(csv("words.tsv", delimiter: "	").map(x => (x.at(0), x.at(0).at(0), x.at(1))), worksheet())
