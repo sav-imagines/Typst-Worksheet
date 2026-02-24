@@ -17,7 +17,6 @@
 #import "@preview/catppuccin:1.1.0": frappe
 #import "@preview/linguify:0.5.0": linguify
 
-#let A = 20%
 #let LW = .1em // line width
 #let BW = 100% // block width
 #let lang-db = toml("lang.toml")
@@ -40,11 +39,11 @@
   return (theme: theme, rng: rng, ignored_characters: ignored_characters)
 }
 
-#let textbox(state) = {
+#let textbox(state, color) = {
   let colors = state.theme.colors
-  box(radius: LW, width: BW, height: 1.5em)[
+  box(radius: LW, width: BW, height: 2em)[
     #line(start: (0%, 80%), end: (100%, 80%), stroke: (
-      paint: colors.rosewater.rgb.desaturate(A),
+      paint: color,
     ))
   ]
 }
@@ -58,7 +57,7 @@
         h(0.7em)
       }
     ])
-    #textbox(state)
+    #textbox(state, state.colors.rosewater.rgb)
   ]
 }
 
@@ -70,10 +69,10 @@
     #for word in words {
       if word == "_" {
         h(0.2em)
-        box(stroke: state.theme.colors.rosewater.rgb.desaturate(A), radius: 0.2em)[
+        box(stroke: state.theme.colors.rosewater.rgb, radius: 0.2em)[
           #line(length: 5em, stroke: (
             dash: "loosely-dotted",
-            paint: colors.text.rgb.desaturate(A),
+            paint: colors.text.rgb,
           ))
         ]
         h(.3em)
@@ -101,7 +100,7 @@
   }
   rounded_block(
     state.theme,
-    colors.rosewater.rgb.desaturate(A),
+    colors.rosewater.rgb,
   )[
     #ling("word-order")
     #stack(
@@ -120,7 +119,7 @@
   let colors = state.theme.colors
   rounded_block(
     state.theme,
-    colors.peach.rgb.desaturate(A),
+    colors.peach.rgb,
   )[
     #ling("add-remaining-verb")
     #for (i, (sentence, verb)) in sentences.enumerate() {
@@ -133,12 +132,12 @@
 
 #let conjugation_table(words, state, root) = {
   let colors = state.theme.colors
-  let stroke = colors.maroon.rgb.desaturate(A) + LW
+  let stroke = colors.maroon.rgb + LW
   show table.cell.where(y: 0): strong
 
   rounded_block(
     state.theme,
-    colors.maroon.rgb.desaturate(A),
+    colors.maroon.rgb,
     inset: 0.2em,
     breakable: false,
     clip: true,
@@ -157,12 +156,12 @@
 
 #let word_list(words, state) = {
   let colors = state.theme.colors
-  let stroke = colors.flamingo.rgb.desaturate(A) + LW
+  let stroke = colors.flamingo.rgb + LW
   show table.cell.where(y: 0): strong
 
   rounded_block(
     state.theme,
-    colors.flamingo.rgb.desaturate(A),
+    colors.flamingo.rgb,
     inset: 0.2em,
     clip: true,
   )[
@@ -179,7 +178,7 @@
 #let word_symbol_list(words, state, header: table.header[#ling("word")][#ling("symbol")][#ling("meaning")]) = {
   let colors = state.theme.colors
   let color = colors.flamingo.rgb
-  let stroke = color.desaturate(A) + LW
+  let stroke = color + LW
 
   show table.cell.where(y: 0): strong
   rounded_block(
@@ -193,6 +192,7 @@
       columns: (auto, auto, 1fr),
       stroke: (x, y) => (left: if x > 0 { stroke }, top: stroke),
       header,
+      align: (auto, center, auto),
       ..words.flatten(),
     )
   ]
@@ -202,22 +202,54 @@
   let colors = state.theme.colors
   rounded_block(
     state.theme,
-    colors.lavender.rgb.desaturate(A),
+    colors.lavender.rgb,
     inset: 1em,
     body,
   )
 }
 
-#let notice(state, body) = {
+#let notice(state, heading, body) = {
   let colors = state.theme.colors
   box(
     fill: state.theme.colors.yellow.rgb.transparentize(60%),
     inset: 1em,
+    width: 100%,
     radius: 1em,
-    stroke: LW + state.theme.colors.yellow.rgb.desaturate(A),
+    stroke: LW + state.theme.colors.yellow.rgb,
   )[
-    #circle(radius: 0.6em, fill: blue.lighten(10%), inset: 0.1em, align(center, text(fill: white.darken(5%), [i])))
+    #let centered_i = align(center + horizon, text(
+      white,
+      [i],
+    ))
+    #let infoCircle = circle(radius: 0.6em, fill: blue.lighten(30%), [#centered_i])
+
+    #place(infoCircle)
+    #place(dx: 1.5em, dy: 0.25em)[== #heading]
+    #v(1.75em)
     #body
+  ]
+}
+
+#let question(i, state, question) = {
+  let colors = state.theme.colors
+  block(below: .5em, width: BW, breakable: false)[
+    *#(i + 1).* #question
+    #textbox(state, colors.sapphire.rgb)
+  ]
+}
+
+#let questions(state, block_title, questions) = {
+  let colors = state.theme.colors
+  let color = colors.sapphire.rgb
+  rounded_block(
+    state.theme,
+    color,
+    inset: 1em,
+  )[
+    == #block_title
+    #for (i, (question_x, answer)) in questions.enumerate() {
+      question(i, state, question_x)
+    }
   ]
 }
 
