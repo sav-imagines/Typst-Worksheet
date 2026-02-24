@@ -17,6 +17,8 @@
 #import "@preview/catppuccin:1.1.0": frappe
 #import "@preview/linguify:0.5.0": linguify
 
+#let A = 20%
+#let W = .1em
 #let lang-db = toml("lang.toml")
 
 #let rounded_block(theme, color, body, ..others) = {
@@ -25,7 +27,7 @@
     inset: 1em,
     width: 95%,
     radius: 1em,
-    stroke: color + 0.2em,
+    stroke: color + W,
     ..others,
     body,
   )
@@ -37,9 +39,9 @@
 
 #let textbox(state) = {
   let colors = state.theme.colors
-  box(radius: 0.2em, width: 100%, height: 1.5em)[
+  box(radius: W, width: 100%, height: 1.5em)[
     #line(start: (0%, 80%), end: (100%, 80%), stroke: (
-      paint: colors.rosewater.rgb,
+      paint: colors.rosewater.rgb.desaturate(A),
     ))
   ]
 }
@@ -49,7 +51,7 @@
     *#(i + 1).* "#translation"
     #pad(left: 0.2em, block[
       #for word in words {
-        box(outset: 0.2em, inset: 0.2em, radius: 0.2em, fill: state.theme.colors.surface2.rgb, [#word])
+        box(outset: W, inset: W, radius: W, fill: state.theme.colors.surface2.rgb, [#word])
         h(0.7em)
       }
     ])
@@ -65,10 +67,10 @@
     #for word in words {
       if word == "_" {
         h(0.2em)
-        box(stroke: state.theme.colors.rosewater.rgb, radius: 0.2em)[
+        box(stroke: state.theme.colors.rosewater.rgb.desaturate(A), radius: 0.2em)[
           #line(length: 5em, stroke: (
             dash: "loosely-dotted",
-            paint: colors.text.rgb,
+            paint: colors.text.rgb.desaturate(A),
           ))
         ]
         h(.3em)
@@ -96,7 +98,7 @@
   }
   rounded_block(
     state.theme,
-    colors.rosewater.rgb,
+    colors.rosewater.rgb.desaturate(A),
   )[
     #linguify("word-order", from: lang-db)
     #stack(
@@ -115,7 +117,7 @@
   let colors = state.theme.colors
   rounded_block(
     state.theme,
-    colors.peach.rgb,
+    colors.peach.rgb.desaturate(A),
   )[
     #linguify("add-remaining-verb", from: lang-db)
     #for (i, (sentence, verb)) in sentences.enumerate() {
@@ -128,17 +130,17 @@
 
 #let conjugation_table(words, state, root) = {
   let colors = state.theme.colors
-  let stroke = colors.maroon.rgb + 0.2em
+  let stroke = colors.maroon.rgb.desaturate(A) + W
   show table.cell.where(y: 0): strong
 
   rounded_block(
     state.theme,
-    colors.maroon.rgb,
+    colors.maroon.rgb.desaturate(A),
     inset: 0.2em,
     breakable: false,
     clip: true,
   )[
-    #pad(top: .8em, left: .8em, block(above: 1.5em, width: 100%, breakable: false, [ == #linguify(
+    #pad(top: 1em, left: 1em, block(above: 1.5em, width: 100%, breakable: false, [ == #linguify(
       "conjugation",
       from: lang-db,
     ) '#root']))
@@ -153,12 +155,12 @@
 
 #let word_list(words, state) = {
   let colors = state.theme.colors
-  let stroke = colors.flamingo.rgb + 0.2em
+  let stroke = colors.flamingo.rgb.desaturate(A) + W
   show table.cell.where(y: 0): strong
 
   rounded_block(
     state.theme,
-    colors.flamingo.rgb,
+    colors.flamingo.rgb.desaturate(A),
     inset: 0.2em,
     clip: true,
   )[
@@ -177,10 +179,9 @@
 
 #let text_block(state, body) = {
   let colors = state.theme.colors
-  let stroke = colors.lavender.rgb + 0.2em
   rounded_block(
     state.theme,
-    colors.lavender.rgb,
+    colors.lavender.rgb.desaturate(A),
     inset: 1em,
     body,
   )
@@ -189,10 +190,10 @@
 #let notice(state, body) = {
   let colors = state.theme.colors
   box(
-    fill: state.theme.colors.yellow.rgb.transparentize(60%),
+    fill: state.theme.colors.yellow.rgb.desaturate(60%),
     inset: 1em,
     radius: 1em,
-    stroke: 2pt + state.theme.colors.yellow.rgb,
+    stroke: 2pt + state.theme.colors.yellow.rgb.desaturate(A),
   )[
     #circle(radius: 0.6em, fill: blue.lighten(10%), inset: 0.1em, align(center, text(fill: white.darken(5%), [i])))
     #body

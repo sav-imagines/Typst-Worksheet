@@ -4,6 +4,7 @@
 #import "@preview/suiji:0.5.1": gen-rng
 #import "@preview/catppuccin:1.1.0": catppuccin, frappe, latte, mocha, set-code-theme
 
+#set text(lang: "nl", size: 8pt)
 
 #let state = (
   theme: frappe,
@@ -18,12 +19,11 @@
 
 = Werkblad Nederlands
 
-#set text(lang: "nl")
 #word_order_exercise(tsv("data/sentences.tsv"), new_state)
 #fill_conjugation_exercise(tsv("data/conjugation.tsv"), new_state)
 #conjugation_table(tsv("data/hebben.tsv"), new_state, "hebben")
-#colbreak()
-#word_list(tsv("data/words.tsv"), worksheet())
+#word_list(tsv("data/words.tsv"), new_state)
+
 #let story = [
   == Lorem ipsum
   #lorem(25)
