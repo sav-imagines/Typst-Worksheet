@@ -3,6 +3,12 @@ set windows-shell := ["cmd.exe", "/c"]
 [parallel]
 watch: watch-example watch-publish-local
 
+[parallel]
+build: publish-local build-example
+
+build-example:
+  typst compile examples/example.typ
+
 watch-example:
   typst watch examples/example.typ
 
