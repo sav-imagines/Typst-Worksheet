@@ -57,7 +57,7 @@
         h(0.7em)
       }
     ])
-    #textbox(state, state.colors.rosewater.rgb)
+    #textbox(state, state.theme.colors.rosewater.rgb)
   ]
 }
 
@@ -221,9 +221,9 @@
       white,
       [i],
     ))
-    #let infoCircle = circle(radius: 0.8em, fill: blue.lighten(40%), [#centered_i])
+    #let infoCircle = circle(radius: 0.7em, fill: blue.lighten(30%), [#centered_i])
 
-    #place(top + right, infoCircle)
+    #place(top + right, dy: -0.5em, infoCircle)
     == #heading
     #body
   ]
@@ -237,7 +237,7 @@
   ]
 }
 
-#let questions(state, block_title, questions) = {
+#let quiz(state, block_title, questions) = {
   let colors = state.theme.colors
   let color = colors.sapphire.rgb
   rounded_block(
