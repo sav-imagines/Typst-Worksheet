@@ -102,7 +102,7 @@
     state.theme,
     colors.rosewater.rgb,
   )[
-    #ling("word-order")
+    == #ling("word-order")
     #stack(
       spacing: 0.5em,
       ..shuffled_sentences
@@ -121,7 +121,7 @@
     state.theme,
     colors.peach.rgb,
   )[
-    #ling("add-remaining-verb")
+    == #ling("add-remaining-verb")
     #for (i, (sentence, verb)) in sentences.enumerate() {
       let required_character = "_" // to mitigate a weird LSP cursive rendering bug: _
       assert(sentence.contains(required_character))
@@ -252,6 +252,62 @@
   ]
 }
 
-#let translation_exercise(state, sentences) = {
+#let multi_choice_question(i, state, question, answers) = {
   let colors = state.theme.colors
+  [*#(i + 1).* #question]
+  grid(
+    // stroke: white,
+    columns: 2,
+    rows: 1.2em,
+    gutter: 0.5em,
+    align: horizon,
+    ..answers
+      .map(answer => (
+        circle(
+          fill: colors.surface1.rgb,
+          radius: .5em,
+          stroke: LW + colors.text.rgb,
+        ),
+        [#answer],
+      ))
+      .flatten()
+  )
+}
+
+#let multi_choice_quiz(state, block_title, questions) = {
+  let colors = state.theme.colors
+  let color = colors.sapphire.rgb
+  rounded_block(
+    state.theme,
+    color,
+    inset: 1em,
+  )[
+    == #block_title
+    #for (i, (question, ..answers)) in questions.enumerate() {
+      multi_choice_question(i, state, question, answers)
+    }
+  ]
+}
+
+#let custom_table(state, data, title, headers, columns, ..table_options) = {
+  let colors = state.theme.colors
+  let color = colors.maroon.rgb
+  let stroke = color + LW
+
+  show table.cell.where(y: 0): strong
+  rounded_block(
+    state.theme,
+    color,
+    inset: 0.2em,
+    clip: true,
+  )[
+    #pad(top: .8em, left: .8em, block(above: 1.5em, width: BW, breakable: false, title))
+    #table(
+      columns: columns,
+      stroke: (x, y) => (left: if x > 0 { stroke }, top: stroke),
+      headers,
+      ..table_options,
+      ..data.flatten(),
+    )
+  ]
 }

@@ -4,7 +4,7 @@ set windows-shell := ["cmd.exe", "/c"]
 watch: watch-example watch-publish-local
 
 [parallel]
-build: publish-local build-example
+build: publish-local build-example show-example
 
 build-example:
   typst compile examples/example.typ
@@ -12,6 +12,9 @@ build-example:
 
 watch-example:
   typst watch examples/example.typ
+
+show-example:
+  typst compile examples/example.typ --format png
 
 [linux]
 publish-local:
