@@ -8,13 +8,15 @@ build: publish-local build-example
 
 build-example:
   typst compile examples/example.typ
+  typst compile examples/example.typ --format png
 
 watch-example:
   typst watch examples/example.typ
 
 [linux]
 publish-local:
-  cp * ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
+  cp *.toml ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
+  cp *.typ ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
 
 [windows]
 publish-local:
