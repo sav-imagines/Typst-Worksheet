@@ -18,17 +18,19 @@ show-example:
 
 [linux]
 publish-local:
-  cp *.toml ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
-  cp *.typ ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
+  mkdir -p ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
+  cp *.t* ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
 
 [windows]
 publish-local:
-  xcopy * %APPDATA%\typst\packages\local\language_worksheet\0.0.1 /Y
+  xcopy *.toml %APPDATA%\typst\packages\local\language_worksheet\0.0.1 /Y
+  xcopy *.typ %APPDATA%\typst\packages\local\language_worksheet\0.0.1 /Y
 
 [linux]
 watch-publish-local:
-  watchexec cp * ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
+  mkdir -p ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
+  watchexec cp *.t* ~/.local/share/typst/packages/local/language_worksheet/0.0.1/
 
 [windows]
 watch-publish-local:
-  watchexec xcopy * %APPDATA%\typst\packages\local\language_worksheet\0.0.1 /Y
+  watchexec xcopy *.t* %APPDATA%\typst\packages\local\language_worksheet\0.0.1 /Y

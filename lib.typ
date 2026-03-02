@@ -61,21 +61,26 @@
   ]
 }
 
+// TODO: custom header
 #let conjugation_block(i, words, verb, state) = {
   let colors = state.theme.colors
   block(above: 1.5em, width: BW, breakable: false)[
     *#(i + 1).* [#verb]
     #linebreak()
-    #for word in words {
+    #for (i, word) in words.enumerate() {
       if word == "_" {
-        h(0.2em)
-        box(stroke: state.theme.colors.rosewater.rgb, radius: 0.2em)[
-          #line(length: 5em, stroke: (
-            dash: "loosely-dotted",
-            paint: colors.text.rgb,
-          ))
+        if i > 0 {
+          h(0.2em)
+        }
+        box(radius: 0.2em, width: 5em)[
+          #place(
+            dy: .2em,
+            line(length: 5em, stroke: (
+              paint: state.theme.colors.rosewater.rgb,
+            )),
+          )
         ]
-        h(.3em)
+        h(0.3em)
       } else {
         word
       }
